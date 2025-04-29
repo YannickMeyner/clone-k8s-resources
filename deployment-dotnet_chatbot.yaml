@@ -1,0 +1,32 @@
+# deployment-dotnet-chatbot.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-chatbot
+  namespace: k8s-resources
+  labels:
+    app.kubernetes.io/name: dotnet-chatbot
+    app.kubernetes.io/version: main
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: dotnet-chatbot
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: dotnet-chatbot
+    spec:
+      containers:
+      - name: dotnet-chatbot
+        image: fs25group13.azurecr.io/dotnet-chatbot:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: HuggingFace__ApiKey
+          valueFrom:
+            secretKeyRef:
+              name: chatbot-api-keys
+              key: dotnet-chatbot-api-key
+      imagePullSecrets:
+      - name: acr-auth

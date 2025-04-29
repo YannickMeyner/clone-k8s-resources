@@ -1,0 +1,16 @@
+# service-fastify-chatbot.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastify-chatbot
+  namespace: k8s-resources
+  labels:
+    app.kubernetes.io/name: fastify-chatbot
+    app.kubernetes.io/version: main
+spec:
+  selector:
+    app.kubernetes.io/name: fastify-chatbot
+  ports:
+  - port: 80
+    targetPort: 3000
+  type: ClusterIP

@@ -1,0 +1,36 @@
+# deployment-connecting-worlds.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connecting-worlds
+  namespace: k8s-resources
+  labels:
+    app.kubernetes.io/name: connecting-worlds
+    app.kubernetes.io/version: main
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: connecting-worlds
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: connecting-worlds
+    spec:
+      containers:
+      - name: connecting-worlds
+        image: fs25group13.azurecr.io/connecting-worlds:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: QUARKUS_CONFIG_LOCATIONS
+          value: file:/work/config/application.yaml
+        volumeMounts:
+        - name: quarkus-config-volume
+          mountPath: /work/config
+      volumes:
+        - name: quarkus-config-volume
+          configMap:
+            name: connecting-worlds
+      imagePullSecrets:
+      - name: acr-auth
