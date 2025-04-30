@@ -27,3 +27,9 @@ Then you can apply all files in order.
 - Deployments
 - Services
 
+## Sealed Secrets Verwendung
+Der Sealed Secrets Controller ist bereits über Helm im Cluster installiert:
+```bash
+helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+helm install sealed-secrets sealed-secrets/sealed-secrets -n kube-system
+```
